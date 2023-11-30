@@ -10,9 +10,11 @@ import java.util.Scanner;
 
 public class Main {
 	
+	// The Program is a little different from the flowchart and pseudo code 
+	// as i took a little creative freedom with things and we didn't had time to add in additional functionalities 
+	// But we made everything with 100% of our best effort
+	// Made by - Sahid and Parv 
 	
-	// Do UserLives setup and check the code again
-
 	
 	// Initialising all the Variables / Classes that would be used later
     static SwiftBotAPI sb = new SwiftBotAPI();
@@ -28,7 +30,7 @@ public class Main {
     // this is used for storring User Entered button
     static ArrayList<Button> UserArray = new ArrayList<>();
     // Initialise the userlives
-    static int UserLives = 3;
+    
 
     
 
@@ -48,26 +50,37 @@ public class Main {
  
     private static void GetInp() throws InterruptedException {
         
-    	int userInp = scanner.nextInt(); // Gets Integer 
+    	String userInp = scanner.next(); // Gets Integer 
         
-    	System.out.println("You entered: " + userInp); 
+    	 
+    	int number = 0;
         
-        
+    	 try {
+    		 // Converts the string to integer
+             number = Integer.valueOf(userInp);
+             System.out.println("You entered: " + number);
+
+             
+         } catch (NumberFormatException e) {
+        	 // if input is non convertible i.e. characters returns error
+             System.out.println("Invalid integer input");
+             number = -1;
+         }
 
         
         						// Checks for input and do things accordingly
-        if (userInp == 1) {
+        if (number == 1) {
             clearScreen(); 		// Clears The Terminal
             System.out.println("Thanks For Playing this game");
             Thread.sleep(1000);
             StartGame();
-        } else if (userInp == 0) {
+        } else if (number == 0) {
         	clearScreen();   	// Clears The Terminal
-            System.out.println("Thanks For Playing Amigo This will close automatically in 3 sec");
+            System.out.println("See You Again Champ");
             Thread.sleep(3000);
             System.exit(0);		// Closes the program
         } else {
-            System.out.println("Please Enter a valid input");  // Tells the user to input a valid answer
+            System.out.println(" \nPlease Enter a valid input");  // Tells the user to input a valid answer
             GetInp();		// Calls The same program again
         }
     }
@@ -242,30 +255,63 @@ public class Main {
     	System.out.println("Enter 1 to continue");
     	System.out.println("Enter 0 to exit");
     	
-    	int userInp = scanner.nextInt(); // Gets Integer 
+    	String userInp = scanner.next(); // Gets Integer 
         
-    	 
+    	int number = 0;
+        
+   	 	try {
+            number = Integer.valueOf(userInp);
+            System.out.println("You entered: " + number);
+
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid integer input");
+            number = -1;
+        }
         
         
         
-        if(userInp == 1) {
+        if(number == 1) {
         	return;
         }
-        else if(userInp == 0) {
+        else if(number == 0) {
         	if(score >= 5) {	// if score is more than or equal to 5 Does Victory Dance
         		System.out.println("Thanks For Playing! Your Score was " + score);
         		System.out.println("SwiftBot will do The celebration dive");
-        		System.out.println("");
-        		System.out.println("Place Your Swiftbot on ground! You have 4sec");
-        		try {
-        			Thread.sleep(4000);
-        		} catch(InterruptedException e){
-        			e.printStackTrace();
-        		}
+        		
+        		System.out.println(" \nPlace Your Swiftbot on ground! After Press Enter");
+        		try (Scanner scanner = new Scanner(System.in)) {
+                    while (true) {
+                        String userInput = scanner.nextLine();
+                        if (userInput.isEmpty()) {	// Checks if userInput is empty 
+                            break; // Break out of the loop if Enter is pressed
+                        } else {
+                            System.out.println("Please press Enter to continue.");
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
         		DoVictoryDance();
+        		
+        		System.out.println("See You Again Champ");
+        		try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        		try {
+                    scanner.close();  			// Closes the Input and responds with error if any
+                } catch (Exception e) {
+                    
+                    e.printStackTrace();
+                }
+                System.exit(0);
+        		
         	}
         	else {
         		System.out.println("Thanks For Playing! Your Score was " + score);
+        		System.out.println("See You Again Champ");
         		try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -281,7 +327,15 @@ public class Main {
         	}
         }
         else {
-        	System.out.println("Please Enter a valid Answer!");
+        	System.out.println(" \n Sorry Wrong Input \n Exiting the program");
+        	try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	System.exit(0);
+        	
         }
     	
     }
@@ -391,26 +445,34 @@ private static void handleUnderLightsForVictoryDance(int no) throws InterruptedE
 
         int score = 0; // Initialise score and round
         int RoundNo = 1;
+        int MAX_ROUND = 30;
 
         	
-
+        //IMPORTANT - SET THE MAX_ROUND TO ANY INT FOR MAXIMUM NUMBER OF ROUNDS
         	
         	// Check If IsUserGood boolean is true
             if(IsUserGood[0]) {
             	
-            	// initialises an for loop with number of rounds as Z its currently set to 5 but i'll update it soon 
-            	for(int z = 0; z <= 10; z++) {
+            	// initialises an for loop with number of rounds as Z its currently set to 30 but can change to number of rounds you wanna play
+            	for(int z = 0; z <= MAX_ROUND; z++) {
             		
             		clearScreen(); // Clears The Terminal
+            		
             		System.out.println("Please wait for the instructions to click the button it wont work if you click button at showing time");
-                	int colornum = getRandomNumber(1, 4); // Gets the Random number between 1 and 4 including them
+            		System.out.println("\nAlso If the Button does not show any message in terminal when clicked wait for 1 sec or .5 sec and click again \n");
+            		System.out.println("\nThe Button Assigments to Lights are as follows: ");
+            		System.out.println("A = Front left light = Blue");
+            		System.out.println("X = Front right light = Red");
+            		System.out.println("B = Back left light = Green");
+            		System.out.println("Y = Back right light = Yellow");
+            		int colornum = getRandomNumber(1, 4); // Gets the Random number between 1 and 4 including them
                     
                     RandomGenNum.add(colornum); // Adds the random number to arraylist
-                    System.out.println(" ");
+                    System.out.println("\n ");
                     System.out.println("Round No: " + RoundNo);	// Shows Your Current Round and Score
                     System.out.println("Your Current Score: " + score);
                     System.out.println(" ");
-                    System.out.println("Showing you the Squence");
+                    System.out.println("Showing you the Squence --- Wait For it to finish before doing anything");
                     
                     // Loops over the array showing all the numbers randomly generated as Colors
                     for(int i=0;i<RandomGenNum.size();i++){
@@ -434,16 +496,26 @@ private static void handleUnderLightsForVictoryDance(int no) throws InterruptedE
                     		System.out.println("Thanks For Playing! Your Score was " + score);
                     		System.out.println("SwiftBot will do The celebration dive");
                     		System.out.println("");
-                    		System.out.println("Place Your Swiftbot on ground! You have 4sec");
-                    		try {
-                    			Thread.sleep(4000);
-                    		} catch(InterruptedException e){
-                    			e.printStackTrace();
-                    		}
+                    		System.out.println(" \nPlace Your Swiftbot on ground! After Press Enter");
+                    		try (Scanner scanner = new Scanner(System.in)) {
+                                while (true) {
+                                    String userInput = scanner.nextLine();
+                                    if (userInput.isEmpty()) {	// Checks if userInput is empty 
+                                        break; // Break out of the loop if Enter is pressed
+                                    } else {
+                                        System.out.println("Please press Enter to continue.");
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                     		DoVictoryDance();
+                    		
+                    		System.out.println("See You Again Champ");
                     	}
                     	else {
                     		System.out.println("Thanks For Playing! Your Score was " + score);
+                    		System.out.println("See You Again Champ");
                     		try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
@@ -462,14 +534,16 @@ private static void handleUnderLightsForVictoryDance(int no) throws InterruptedE
                         break;	// Exit the loop if IsUserGood is false
                     }
                      
+                     score += 1; // Increases the Score by 1
+                     
                      if(RoundNo % 5 == 0) {		// if round is 5 , 10 or divisible by 5 it ask the user to continue or exit
                     	 AskUserContinue(RoundNo,score);
                      }
                     
                      System.out.println("Round " + RoundNo + " Over");
                      
-                     RoundNo += 1;	// Increases the Round No and score by 1
-                     score += 1;
+                     RoundNo += 1;	// Increases the Round No by 1
+                     
                      
                      System.out.println("Your Score: " + score);
                      
@@ -486,9 +560,6 @@ private static void handleUnderLightsForVictoryDance(int no) throws InterruptedE
             
             
             // wait for 2 sec after displaying Game Over
-        
-        
-        
             try {
                 scanner.close();  			// Closes the Input and responds with error if any
             } catch (Exception e) {
