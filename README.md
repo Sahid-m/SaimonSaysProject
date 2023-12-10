@@ -4,7 +4,7 @@ high level code for functionality.
 
 Step to get this working on your swiftbot:
 
-Download the A-22-SimonSays file on your laptop  
+Download Main.java file on your system ( git clone or direct download )
 
 Start your swiftbot (just connect the battery to it and red light should start) 
 
